@@ -1,9 +1,9 @@
 package com.damlakarpus.bankappmobile.api
 
-import com.damlakarpus.bankappmobile.model.register.RegisterResponse
-import com.damlakarpus.bankappmobile.model.login.LoginResponse
-import com.damlakarpus.bankappmobile.model.register.RegisterRequest
-import com.damlakarpus.bankappmobile.model.login.LoginRequest
+import com.damlakarpus.bankappmobile.data.model.register.RegisterResponse
+import com.damlakarpus.bankappmobile.data.model.login.LoginResponse
+import com.damlakarpus.bankappmobile.data.model.register.RegisterRequest
+import com.damlakarpus.bankappmobile.data.model.login.LoginRequest
 
 import retrofit2.http.Body
 import retrofit2.http.POST

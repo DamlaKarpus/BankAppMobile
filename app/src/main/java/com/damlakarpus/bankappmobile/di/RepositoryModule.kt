@@ -1,7 +1,7 @@
 package com.damlakarpus.bankappmobile.di
 
 import com.damlakarpus.bankappmobile.api.ApiService
-import com.damlakarpus.bankappmobile.repository.AuthRepository
+import com.damlakarpus.bankappmobile.data.repository.AuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

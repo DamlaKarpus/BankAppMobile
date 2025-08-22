@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 
@@ -21,9 +22,13 @@ open class BaseActivity : AppCompatActivity() {
         progressBar = pb
     }
 
-    // Resource<T> için genel observer
-    fun <T> observeResource(liveData: LiveData<Resource<T>>, onSuccess: (T) -> Unit) {
-        liveData.observe(this, Observer { resource ->
+    // Resource<T> için genel observer (hem Activity hem Fragment kullanabilsin)
+    fun <T> observeResource(
+        liveData: LiveData<Resource<T>>,
+        lifecycleOwner: LifecycleOwner,
+        onSuccess: (T) -> Unit
+    ) {
+        liveData.observe(lifecycleOwner, Observer { resource ->
             when (resource) {
                 is Resource.Loading -> progressBar?.visibility = View.VISIBLE
                 is Resource.Success -> {
@@ -38,7 +43,7 @@ open class BaseActivity : AppCompatActivity() {
         })
     }
 
-    // İsteğe bağlı eski show/hide Loading metotları
+    // Loading kontrolü
     fun showLoading() {
         progressBar?.visibility = View.VISIBLE
     }
