@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.damlakarpus.bankappmobile.base.BaseFragment
 import com.damlakarpus.bankappmobile.databinding.FragmentLoginBinding
-import com.damlakarpus.bankappmobile.model.login.LoginRequest
-import com.damlakarpus.bankappmobile.viewmodel.LoginViewModel
+import com.damlakarpus.bankappmobile.data.model.login.LoginRequest
+import com.damlakarpus.bankappmobile.ui.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

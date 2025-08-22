@@ -1,6 +1,7 @@
 package com.damlakarpus.bankappmobile.di
 
 import com.damlakarpus.bankappmobile.api.ApiService
+import com.damlakarpus.bankappmobile.common.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,9 +15,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
-    // TODO: Gerçek API URL'inizi buraya yazın
-    private const val BASE_URL = "https://10.0.2.2:8080/"
 
     @Provides
     @Singleton

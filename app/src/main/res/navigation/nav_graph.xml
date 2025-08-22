@@ -7,7 +7,7 @@
     <!-- Splash Fragment -->
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.damlakarpus.bankappmobile.ui.SplashFragment"
+        android:name="com.damlakarpus.bankappmobile.ui.splash.SplashFragment"
         android:label="Splash">
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"

@@ -8,9 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.damlakarpus.bankappmobile.base.BaseFragment
+import com.damlakarpus.bankappmobile.data.model.register.RegisterRequest
 import com.damlakarpus.bankappmobile.databinding.FragmentRegisterBinding
-import com.damlakarpus.bankappmobile.model.register.RegisterRequest
-import com.damlakarpus.bankappmobile.viewmodel.RegisterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

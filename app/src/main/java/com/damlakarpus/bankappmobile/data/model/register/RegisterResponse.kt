@@ -1,4 +1,4 @@
-package com.damlakarpus.bankappmobile.model.register
+package com.damlakarpus.bankappmobile.data.model.register
 
 import com.google.gson.annotations.SerializedName
 
