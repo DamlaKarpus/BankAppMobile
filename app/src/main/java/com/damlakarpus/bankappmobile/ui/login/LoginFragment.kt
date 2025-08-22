@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.damlakarpus.bankappmobile.base.BaseFragment
+import com.damlakarpus.bankappmobile.common.SessionManager
 import com.damlakarpus.bankappmobile.databinding.FragmentLoginBinding
 import com.damlakarpus.bankappmobile.data.model.login.LoginRequest
 import com.damlakarpus.bankappmobile.ui.login.LoginViewModel
@@ -36,7 +37,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         }
 
         binding.tvRegister.setOnClickListener {
-            // Navigation Component ile RegisterFragment'e geçiş
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
         }
     }
@@ -44,10 +44,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     private fun performLogin(email: String, password: String) {
         val request = LoginRequest(email, password)
 
-        // BaseFragment içindeki observeResource kullanımı
         observeResource(viewModel.loginUser(request), viewLifecycleOwner) { data ->
+            // Token’ı SessionManager’a kaydet
+            val token = data.token  // LoginResponse içinde token alanı olduğunu varsayıyoruz
+            SessionManager.token = token
+
+            // Başarılı login mesajı
             Toast.makeText(requireContext(), "Login başarılı!", Toast.LENGTH_SHORT).show()
-            // DashboardFragment veya başka fragment'e geçiş
+
+            // DashboardFragment’a yönlendirme
             findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToDashboardFragment())
         }
     }
