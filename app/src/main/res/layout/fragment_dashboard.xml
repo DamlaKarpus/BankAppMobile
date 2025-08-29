@@ -1,115 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/dashboard_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="?attr/colorBackground">
+    android:fillViewport="true"
+    android:background="@android:color/white">
 
-    <!-- Kullanıcı adı selamlama -->
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hoş geldin, Damla 👋"
-        android:textAppearance="?attr/textAppearanceHeadline6"
-        android:textStyle="bold"
-        android:paddingBottom="8dp" />
-
-    <!-- Bakiye Kartı -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardBalance"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="6dp"
-        app:cardBackgroundColor="?attr/colorPrimaryContainer">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <LinearLayout
+        <!-- Karşılama Metni -->
+        <TextView
+            android:id="@+id/tvHello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hoşgeldin!"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- ProgressBar -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            style="?android:attr/progressBarStyleLarge"/>
+
+        <!-- Hesap Listesi -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAccounts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:layout_marginBottom="16dp"
+            android:nestedScrollingEnabled="false"/>
 
-            <TextView
-                android:id="@+id/tvBalanceTitle"
-                android:layout_width="wrap_content"
+        <!-- Seçilen Hesap Bilgileri Kartı -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Toplam Bakiyen"
-                android:textAppearance="?attr/textAppearanceBody1"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tvBalance"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tvIban"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IBAN: -"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/tvBalance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bakiye: -"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- İşlem Butonları -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="₺12,450.00"
-                android:textAppearance="?attr/textAppearanceHeadline5"
-                android:textStyle="bold"
-                android:paddingTop="8dp" />
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="16dp">
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                <Button
+                    android:id="@+id/btnDeposit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Para Yatır"/>
 
-    <!-- Hızlı İşlemler -->
-    <LinearLayout
-        android:id="@+id/layoutQuickActions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="space-between"
-        android:layout_marginBottom="16dp">
+                <Space
+                    android:layout_width="12dp"
+                    android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/btnDeposit"
-            android:layout_width="0dp"
+                <Button
+                    android:id="@+id/btnWithdraw"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Para Çek"/>
+
+                <Space
+                    android:layout_width="12dp"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:id="@+id/btnTransfer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Para Gönder"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Son İşlemler -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Para Yatır" />
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-        <View
-            android:layout_width="8dp"
-            android:layout_height="match_parent" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <Button
-            android:id="@+id/btnWithdraw"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Para Çek" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Son İşlemler"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="8dp"/>
 
-        <View
-            android:layout_width="8dp"
-            android:layout_height="match_parent" />
-
-        <Button
-            android:id="@+id/btnTransfer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Havale/EFT" />
+                <TextView
+                    android:id="@+id/tvLastTransactions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Henüz işlem yok."
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
-
-    <!-- İşlem Geçmişi -->
-    <TextView
-        android:id="@+id/tvHistoryTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Son İşlemler"
-        android:textAppearance="?attr/textAppearanceSubtitle1"
-        android:textStyle="bold"
-        android:paddingBottom="8dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvTransactions"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:paddingBottom="8dp" />
-
-</LinearLayout>
+</ScrollView>

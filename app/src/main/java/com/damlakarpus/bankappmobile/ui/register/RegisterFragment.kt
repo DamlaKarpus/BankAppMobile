@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.damlakarpus.bankappmobile.base.BaseFragment
+import com.damlakarpus.bankappmobile.base.Resource
 import com.damlakarpus.bankappmobile.data.model.register.RegisterRequest
 import com.damlakarpus.bankappmobile.databinding.FragmentRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,16 +31,25 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
             if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(requireContext(), "Lütfen tüm alanları doldurun", Toast.LENGTH_SHORT).show()
-            } else {
-                val request = RegisterRequest(username, email, password)
-                observeResource(viewModel.registerUser(request), viewLifecycleOwner) { data ->
-                    Toast.makeText(
-                        requireContext(),
-                        "Kayıt başarılı: ${data.message ?: username}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    // LoginFragment’e geçiş
-                    findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
+                return@setOnClickListener
+            }
+
+            val request = RegisterRequest(username, email, password)
+
+            // LiveData gözlemle
+            viewModel.registerUser(request).observe(viewLifecycleOwner) { resource ->
+
+                when (resource) {
+                    is Resource.Success -> {
+                        Toast.makeText(requireContext(), "Kayıt başarılı", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
+                    }
+                    is Resource.Error -> {
+                        Toast.makeText(requireContext(), "Kayıt başarısız: ${resource.message ?: "Bilinmeyen hata"}", Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> {
+                        // İstersen progress bar gösterebilirsin
+                    }
                 }
             }
         }
