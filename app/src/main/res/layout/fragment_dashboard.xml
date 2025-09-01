@@ -17,8 +17,8 @@
             android:id="@+id/tvHello"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hoşgeldin!"
-            android:textSize="20sp"
+            android:text="Hoşgeldin - "
+            android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
             android:layout_marginBottom="16dp"/>
@@ -31,14 +31,6 @@
             android:layout_gravity="center"
             android:visibility="gone"
             style="?android:attr/progressBarStyleLarge"/>
-
-        <!-- Hesap Listesi -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvAccounts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:nestedScrollingEnabled="false"/>
 
         <!-- Seçilen Hesap Bilgileri Kartı -->
         <androidx.cardview.widget.CardView
@@ -54,6 +46,18 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
+                <!-- Hesap Adı/Numarası -->
+                <TextView
+                    android:id="@+id/tvAccountName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vadesiz Hesap"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:layout_marginBottom="4dp"/>
+
+                <!-- IBAN -->
                 <TextView
                     android:id="@+id/tvIban"
                     android:layout_width="wrap_content"
@@ -62,6 +66,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="16sp"/>
 
+                <!-- Bakiye -->
                 <TextView
                     android:id="@+id/tvBalance"
                     android:layout_width="wrap_content"

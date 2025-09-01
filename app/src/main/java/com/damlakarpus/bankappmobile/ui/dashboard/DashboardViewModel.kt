@@ -37,7 +37,6 @@ class DashboardViewModel(
         _isLoading.value = true
         viewModelScope.launch {
             try {
-
                 val accountList = repository.getAccounts("Bearer $token")
 
                 if (accountList.isNullOrEmpty()) {
@@ -51,6 +50,7 @@ class DashboardViewModel(
                         SessionManager.userId = firstAccount.userId
                         SessionManager.iban = firstAccount.iban
                         SessionManager.balance = firstAccount.balance
+                        SessionManager.userName = firstAccount.userName ?: "Kullanıcı"
                     }
                 }
             } catch (e: Exception) {

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.navigation.fragment.findNavController
 import com.damlakarpus.bankappmobile.R
 import com.damlakarpus.bankappmobile.databinding.FragmentDashboardBinding
@@ -19,7 +18,6 @@ class DashboardFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: DashboardViewModel by viewModels()
-    private val accountAdapter = AccountAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,22 +37,24 @@ class DashboardFragment : Fragment() {
             return
         }
 
-        // RecyclerView setup
-        binding.rvAccounts.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = accountAdapter
-        }
+        // SessionManager’dan kullanıcı bilgilerini göster
+        binding.tvHello.text = "Hoşgeldin, ${SessionManager.userName ?: ""}!"
+        binding.tvIban.text = "IBAN: ${SessionManager.iban ?: "Yok"}"
+        binding.tvBalance.text = "Bakiye: ${SessionManager.balance ?: 0.0} ₺"
 
         // LiveData gözlemleme
         viewModel.accounts.observe(viewLifecycleOwner) { accounts ->
-            accountAdapter.submitList(accounts)
+            // İlk hesabı al ve ekrana yazdır (güncel değerler)
+            accounts.firstOrNull()?.let { account ->
+                binding.tvAccountName.text = "Vadesiz Hesap"
+                binding.tvIban.text = "IBAN: ${account.iban}"
+                binding.tvBalance.text = "Bakiye: ${account.balance} ₺"
+            }
         }
 
         viewModel.error.observe(viewLifecycleOwner) { error ->
             error?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-
-                // Token hatası veya hesap yoksa login sayfasına yönlendir
                 if (it.contains("Token bulunamadı") || it.contains("Hesap bulunamadı")) {
                     SessionManager.clearSession()
                     findNavController().navigate(R.id.loginFragment)
