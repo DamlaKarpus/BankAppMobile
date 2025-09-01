@@ -6,5 +6,6 @@ data class Account(
     val name: String,
     val balance: Double,
     val active: Boolean,
-    val userId: Int
+    val userId: Int,
+    val userName: String
 )

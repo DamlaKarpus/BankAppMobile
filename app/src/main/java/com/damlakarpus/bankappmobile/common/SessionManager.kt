@@ -13,6 +13,7 @@ object SessionManager {
     var userId: Int? = null
     var iban: String? = null
     var balance: Double? = null
+    var userName: String? = null
 
     /**
      * Login sonrası session bilgilerini kaydet
@@ -20,12 +21,14 @@ object SessionManager {
      * @param userId: Kullanıcı ID
      * @param iban: Kullanıcının IBAN numarası
      * @param balance: Hesap bakiyesi
+     * @param userName: kullanıcı adı
      */
-    fun saveSession(token: String, userId: Int, iban: String, balance: Double) {
+    fun saveSession(token: String, userId: Int, iban: String, balance: Double, userName:String) {
         this.token = token
         this.userId = userId
         this.iban = iban
         this.balance = balance
+        this.userName = userName
     }
 
     /**
@@ -36,5 +39,6 @@ object SessionManager {
         userId = null
         iban = null
         balance = null
+        userName = null
     }
 }

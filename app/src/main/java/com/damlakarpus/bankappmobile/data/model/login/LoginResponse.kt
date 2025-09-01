@@ -6,5 +6,7 @@ data class LoginResponse(
     val success: Boolean? = null,
     val message: String? = null,
     @SerializedName("jwt")
-    val token: String? = null // Başarılı login sonrası JWT veya token dönecek
+    val token: String? = null, // Backend’den dönen JWT
+    @SerializedName("userName") // Backend’de User entity’sindeki userName ile eşleşiyor
+    val username: String? = null
 )
