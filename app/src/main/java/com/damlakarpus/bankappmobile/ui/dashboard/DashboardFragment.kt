@@ -37,18 +37,23 @@ class DashboardFragment : Fragment() {
             return
         }
 
-        // SessionManager’dan kullanıcı bilgilerini göster
-        binding.tvHello.text = "Hoşgeldin, ${SessionManager.userName ?: ""}!"
+        // Kullanıcı bilgilerini göster (Sadece SessionManager’dan)
+        binding.tvHello.text = "Hoşgeldin, ${SessionManager.userName ?: "Kullanıcı1"}!"
         binding.tvIban.text = "IBAN: ${SessionManager.iban ?: "Yok"}"
         binding.tvBalance.text = "Bakiye: ${SessionManager.balance ?: 0.0} ₺"
 
         // LiveData gözlemleme
         viewModel.accounts.observe(viewLifecycleOwner) { accounts ->
-            // İlk hesabı al ve ekrana yazdır (güncel değerler)
             accounts.firstOrNull()?.let { account ->
                 binding.tvAccountName.text = "Vadesiz Hesap"
                 binding.tvIban.text = "IBAN: ${account.iban}"
                 binding.tvBalance.text = "Bakiye: ${account.balance} ₺"
+
+                // Sadece IBAN ve balance güncelle
+                SessionManager.iban = account.iban
+                SessionManager.balance = account.balance
+
+                binding.tvHello.text = "Hoşgeldin, ${SessionManager.userName}!"
             }
         }
 
@@ -68,6 +73,11 @@ class DashboardFragment : Fragment() {
 
         // Hesapları token ile yükle
         viewModel.loadAccounts()
+
+        // Para Gönder butonu click
+        binding.btnTransfer.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_transactionFragment)
+        }
     }
 
     override fun onDestroyView() {

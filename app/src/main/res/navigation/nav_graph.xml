@@ -41,5 +41,16 @@
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.damlakarpus.bankappmobile.ui.dashboard.DashboardFragment"
-        android:label="Dashboard" />
+        android:label="Dashboard">
+        <!-- Dashboard -> Transaction Fragment Action -->
+        <action
+            android:id="@+id/action_dashboardFragment_to_transactionFragment"
+            app:destination="@id/transactionFragment" />
+    </fragment>
+
+    <!-- Transaction Fragment -->
+    <fragment
+        android:id="@+id/transactionFragment"
+        android:name="com.damlakarpus.bankappmobile.ui.transaction.TransactionFragment"
+        android:label="Transaction" />
 </navigation>

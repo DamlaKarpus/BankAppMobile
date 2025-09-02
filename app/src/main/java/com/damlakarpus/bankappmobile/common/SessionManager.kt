@@ -16,19 +16,22 @@ object SessionManager {
     var userName: String? = null
 
     /**
-     * Login sonrası session bilgilerini kaydet
-     * @param token: Raw JWT string
-     * @param userId: Kullanıcı ID
-     * @param iban: Kullanıcının IBAN numarası
-     * @param balance: Hesap bakiyesi
-     * @param userName: kullanıcı adı
+     * Session bilgilerini kaydet veya güncelle
+     * Parametreler opsiyonel: null olmayanları günceller.
+     * Not: userName sadece boşsa güncellenir, aksi halde sabit kalır.
      */
-    fun saveSession(token: String, userId: Int, iban: String, balance: Double, userName:String) {
-        this.token = token
-        this.userId = userId
-        this.iban = iban
-        this.balance = balance
-        this.userName = userName
+    fun saveSession(
+        token: String? = null,
+        userId: Int? = null,
+        iban: String? = null,
+        balance: Double? = null,
+        userName: String? = null
+    ) {
+        token?.let { this.token = it }
+        userId?.let { this.userId = it }
+        iban?.let { this.iban = it }
+        balance?.let { this.balance = it }
+        userName?.let { this.userName = it }
     }
 
     /**
