@@ -50,7 +50,6 @@ class DashboardViewModel(
                         SessionManager.userId = firstAccount.userId
                         SessionManager.iban = firstAccount.iban
                         SessionManager.balance = firstAccount.balance
-                        SessionManager.userName = firstAccount.userName ?: "Kullanıcı"
                     }
                 }
             } catch (e: Exception) {
