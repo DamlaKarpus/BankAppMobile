@@ -3,6 +3,10 @@ package com.damlakarpus.bankappmobile.data.model.transaction
 import com.google.gson.annotations.SerializedName
 
 data class TransactionResponse(
+
+    @SerializedName("transactions")
+    val transactions: List<Transaction>? = null,
+
     @SerializedName("success")
     val success: Boolean? = null,
 
