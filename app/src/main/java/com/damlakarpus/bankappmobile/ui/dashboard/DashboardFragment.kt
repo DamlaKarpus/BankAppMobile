@@ -8,9 +8,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.damlakarpus.bankappmobile.R
 import com.damlakarpus.bankappmobile.databinding.FragmentDashboardBinding
 import com.damlakarpus.bankappmobile.common.SessionManager
+import com.damlakarpus.bankappmobile.viewmodel.TransactionViewModel
 
 class DashboardFragment : Fragment() {
 
@@ -18,6 +20,9 @@ class DashboardFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: DashboardViewModel by viewModels()
+    private val transactionViewModel: TransactionViewModel by viewModels()
+
+    private lateinit var transactionAdapter: TransactionAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,26 +42,53 @@ class DashboardFragment : Fragment() {
             return
         }
 
-        // Kullanıcı bilgilerini göster (Sadece SessionManager’dan)
-        binding.tvHello.text = "Hoşgeldin, ${SessionManager.userName ?: "Kullanıcı1"}!"
+        // Kullanıcı bilgilerini göster (SessionManager’dan)
+        binding.tvHello.text = "Hoşgeldin, ${SessionManager.userName ?: "Kullanıcı"}!"
         binding.tvIban.text = "IBAN: ${SessionManager.iban ?: "Yok"}"
         binding.tvBalance.text = "Bakiye: ${SessionManager.balance ?: 0.0} ₺"
 
+        // RecyclerView setup (Son 3 işlem için)
+        transactionAdapter = TransactionAdapter()
+        binding.rvRecentTransactions.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = transactionAdapter
+        }
+
+        // Hesapları yükle
+        viewModel.loadAccounts()
+
+        // Para Gönder butonu
+        binding.btnTransfer.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_transactionFragment)
+        }
+
+        // Tüm İşlemler butonu
+        binding.btnAllTransactions.setOnClickListener {
+            findNavController().navigate(R.id.action_dashboardFragment_to_allTransactionsFragment)
+        }
+
         // LiveData gözlemleme
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        // Hesap bilgisi
         viewModel.accounts.observe(viewLifecycleOwner) { accounts ->
             accounts.firstOrNull()?.let { account ->
                 binding.tvAccountName.text = "Vadesiz Hesap"
                 binding.tvIban.text = "IBAN: ${account.iban}"
                 binding.tvBalance.text = "Bakiye: ${account.balance} ₺"
 
-                // Sadece IBAN ve balance güncelle
+                // Session güncelle
                 SessionManager.iban = account.iban
                 SessionManager.balance = account.balance
 
-                binding.tvHello.text = "Hoşgeldin, ${SessionManager.userName}!"
+                // ✅ Hesap bilgisi geldikten sonra son 3 işlemi getir
+                transactionViewModel.fetchRecentTransactions(account.iban)
             }
         }
 
+        // Hata gözlemleri
         viewModel.error.observe(viewLifecycleOwner) { error ->
             error?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
@@ -67,16 +99,14 @@ class DashboardFragment : Fragment() {
             }
         }
 
+        // Loading
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
-        // Hesapları token ile yükle
-        viewModel.loadAccounts()
-
-        // Para Gönder butonu click
-        binding.btnTransfer.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboardFragment_to_transactionFragment)
+        // Son 3 işlem gözlemi
+        transactionViewModel.recentTransactions.observe(viewLifecycleOwner) { transactions ->
+            transactionAdapter.submitList(transactions)
         }
     }
 

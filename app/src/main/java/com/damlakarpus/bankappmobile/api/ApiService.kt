@@ -7,11 +7,14 @@ import com.damlakarpus.bankappmobile.data.model.login.LoginRequest
 import com.damlakarpus.bankappmobile.data.model.Account
 import com.damlakarpus.bankappmobile.data.model.TransactionRequest
 import com.damlakarpus.bankappmobile.data.model.transaction.TransactionResponse
+import com.damlakarpus.bankappmobile.data.model.transaction.Transaction
+
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -37,4 +40,14 @@ interface ApiService {
     // Para transferi
     @POST("transactions/transfer")
     suspend fun transfer(@Body request: TransactionRequest): TransactionResponse
+
+    // İşlem geçmişi (transaction history)
+    @POST("transactions/history")
+    suspend fun getTransactionHistory(
+        @Body request: Map<String, String>
+    ): TransactionResponse
+
+
+
 }
+
