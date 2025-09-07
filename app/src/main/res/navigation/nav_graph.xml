@@ -52,6 +52,11 @@
         <action
             android:id="@+id/action_dashboardFragment_to_allTransactionsFragment"
             app:destination="@id/allTransactionsFragment" />
+
+        <!-- Dashboard -> Chat Fragment Action -->
+        <action
+            android:id="@+id/action_dashboardFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
 
     <!-- Transaction Fragment -->
@@ -66,5 +71,23 @@
         android:name="com.damlakarpus.bankappmobile.ui.transaction.AllTransactionsFragment"
         android:label="Tüm İşlemler"
         tools:layout="@layout/fragment_all_transactions" />
+
+    <!-- Chat Fragment -->
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.damlakarpus.bankappmobile.ui.chat.ChatFragment"
+        android:label="ChatBot"
+        tools:layout="@layout/fragment_chat">
+
+        <!-- Chat -> Transaction Fragment Action -->
+        <action
+            android:id="@+id/action_chatFragment_to_transactionFragment"
+            app:destination="@id/transactionFragment" />
+
+        <!-- Chat -> AllTransactions Fragment Action -->
+        <action
+            android:id="@+id/action_chatFragment_to_allTransactionsFragment"
+            app:destination="@id/allTransactionsFragment" />
+    </fragment>
 
 </navigation>

@@ -17,11 +17,12 @@
         android:theme="@style/Theme.BankAppMobile"
         android:usesCleartextTraffic="true">
 
-        <!-- Artık sadece MainActivity olacak -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.BankAppMobile">
+            android:theme="@style/Theme.BankAppMobile"
+            android:windowSoftInputMode="adjustResize">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -67,6 +67,11 @@ class DashboardFragment : Fragment() {
             findNavController().navigate(R.id.action_dashboardFragment_to_allTransactionsFragment)
         }
 
+        // ✅ Chat butonu
+        binding.btnChat.setOnClickListener {
+            findNavController().navigate(R.id.chatFragment)
+        }
+
         // LiveData gözlemleme
         setupObservers()
     }
