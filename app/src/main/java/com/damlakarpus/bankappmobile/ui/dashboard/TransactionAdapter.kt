@@ -11,34 +11,50 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TransactionAdapter :
-    ListAdapter<Transaction, TransactionAdapter.TransactionViewHolder>(DiffCallback()) {
+class TransactionAdapter(
+    private val currentIban: String // Oturumdaki kullanıcının IBAN’ı
+) : ListAdapter<Transaction, TransactionAdapter.TransactionViewHolder>(DiffCallback()) {
 
-    class TransactionViewHolder(private val binding: ItemTransactionBinding) :
+    inner class TransactionViewHolder(private val binding: ItemTransactionBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(transaction: Transaction) {
-            // IBAN gösterimi
-            binding.tvReceiverIban.text = if (!transaction.targetAccountIban.isNullOrEmpty()) {
-                "Alıcı IBAN: ${transaction.targetAccountIban}"
-            } else {
-                "Gönderen IBAN: ${transaction.accountIban}"
+        fun bind(tx: Transaction) {
+            val isOutgoing = tx.accountIban == currentIban // biz gönderdik mi?
+
+            // Karşı tarafın IBAN’ı
+            val counterpartyIban = when {
+                tx.type.equals("TRANSFER", true) && isOutgoing -> tx.targetAccountIban
+                tx.type.equals("TRANSFER", true) && !isOutgoing -> tx.accountIban
+                else -> tx.accountIban ?: tx.targetAccountIban
             }
 
-            // Tutar
-            binding.tvAmount.text = NumberFormat.getCurrencyInstance(Locale("tr", "TR"))
-                .format(transaction.amount)
+            // ÜST SATIR: Kullanıcı adı varsa onu göster, yoksa rol yaz
+            val role = when {
+                tx.type.equals("TRANSFER", true) && isOutgoing -> "Alıcı"
+                tx.type.equals("TRANSFER", true) && !isOutgoing -> "Gönderen"
+                tx.type.equals("DEPOSIT", true) -> "Para Yatırma"
+                tx.type.equals("WITHDRAW", true) -> "Para Çekme"
+                else -> "İşlem"
+            }
+            binding.tvUserName.text = tx.targetUserName?.takeIf { it.isNotBlank() } ?: role
 
-            // Tarih formatlama (backend string → okunabilir format)
+            // ALT SATIR: IBAN
+            binding.tvReceiverIban.text = counterpartyIban?.let { "IBAN: $it" } ?: "IBAN bilgisi yok"
+
+            // TUTAR
+            val amountText = tx.amount?.let {
+                NumberFormat.getCurrencyInstance(Locale("tr", "TR")).format(it)
+            } ?: "-"
+            binding.tvAmount.text = amountText
+
+            // TARİH
             val formattedDate = try {
                 val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-                val formatter = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("tr"))
-                val date = parser.parse(transaction.transactionTime)
-                if (date != null) formatter.format(date) else transaction.transactionTime
-            } catch (e: Exception) {
-                transaction.transactionTime // hata olursa direkt geleni bas
+                val fmt = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("tr"))
+                tx.transactionTime?.let { parser.parse(it)?.let(fmt::format) } ?: "-"
+            } catch (_: Exception) {
+                tx.transactionTime ?: "-"
             }
-
             binding.tvTimestamp.text = formattedDate
         }
     }

@@ -47,8 +47,8 @@ class DashboardFragment : Fragment() {
         binding.tvIban.text = "IBAN: ${SessionManager.iban ?: "Yok"}"
         binding.tvBalance.text = "Bakiye: ${SessionManager.balance ?: 0.0} ₺"
 
-        // RecyclerView setup (Son 3 işlem için)
-        transactionAdapter = TransactionAdapter()
+        // RecyclerView setup (Son 3 işlem için) -> burada kendi IBAN’ını parametre geçiyoruz
+        transactionAdapter = TransactionAdapter(currentIban = SessionManager.iban.orEmpty())
         binding.rvRecentTransactions.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = transactionAdapter

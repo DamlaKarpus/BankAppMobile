@@ -14,34 +14,45 @@
         android:orientation="vertical"
         android:padding="12dp">
 
+        <!-- Kullanıcı Adı -->
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alıcı: Kullanıcı Adı"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="2dp"/>
+
         <!-- IBAN -->
         <TextView
             android:id="@+id/tvReceiverIban"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="IBAN"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black" />
+            android:text="IBAN: TRXXXX..."
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginBottom="4dp"/>
 
         <!-- Tutar -->
         <TextView
             android:id="@+id/tvAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tutar"
+            android:text="+₺50,00"
             android:textSize="16sp"
+            android:textStyle="bold"
             android:textColor="@android:color/holo_green_dark"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginBottom="2dp"/>
 
         <!-- Tarih -->
         <TextView
             android:id="@+id/tvTimestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tarih"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginTop="2dp"/>
+            android:text="05/09/2025 10:49"
+            android:textSize="13sp"
+            android:textColor="@android:color/darker_gray"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
