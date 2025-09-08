@@ -32,8 +32,8 @@ class AllTransactionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // RecyclerView setup
-        transactionAdapter = TransactionAdapter()
+        // RecyclerView setup -> kendi IBAN’ı TransactionAdapter’a geçiyoruz
+        transactionAdapter = TransactionAdapter(currentIban = SessionManager.iban.orEmpty())
         binding.rvAllTransactions.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = transactionAdapter

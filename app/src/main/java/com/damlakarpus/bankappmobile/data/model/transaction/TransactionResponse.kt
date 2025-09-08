@@ -19,20 +19,23 @@ data class TransactionResponse(
 
 data class Transaction(
     @SerializedName("id")
-    val id: Long,
+    val id: Long? = null,  // id bazen olmayabilir diye nullable yaptım
 
     @SerializedName("accountIban")
-    val accountIban: String,
+    val accountIban: String? = null,
 
     @SerializedName("targetAccountIban")
-    val targetAccountIban: String?,   // Hedef hesap IBAN
+    val targetAccountIban: String? = null,   // Hedef hesap IBAN
 
     @SerializedName("amount")
-    val amount: Double,               // BigDecimal yerine Double
+    val amount: Double? = null,               // BigDecimal yerine Double
 
     @SerializedName("type")
-    val type: String,                 // İşlem türü: DEPOSIT, WITHDRAW, TRANSFER
+    val type: String? = null,                 // İşlem türü: DEPOSIT, WITHDRAW, TRANSFER
 
     @SerializedName("transactionTime")
-    val transactionTime: String       // LocalDateTime yerine String (JSON timestamp)
+    val transactionTime: String? = null,      // LocalDateTime yerine String (JSON timestamp)
+
+    @SerializedName("targetUserName")
+    val targetUserName: String? = null
 )
