@@ -5,27 +5,31 @@
     android:orientation="vertical"
     android:padding="12dp">
 
+    <!-- Hesap Adı -->
     <TextView
         android:id="@+id/tvAccountName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hesap Adı"
+        android:text="@string/default_account_name"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@android:color/black" />
 
+    <!-- IBAN -->
     <TextView
         android:id="@+id/tvIban"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="IBAN"
+        android:text="@string/iban"
         android:textSize="14sp"
         android:textColor="@android:color/darker_gray" />
 
+    <!-- Bakiye -->
     <TextView
         android:id="@+id/tvBalance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bakiye"
+        android:text="@string/balance"
         android:textSize="14sp"
         android:textColor="@android:color/holo_green_dark" />
 

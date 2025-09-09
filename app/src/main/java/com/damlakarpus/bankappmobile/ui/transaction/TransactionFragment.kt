@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.airbnb.lottie.LottieAnimationView
+import com.damlakarpus.bankappmobile.R
 import com.damlakarpus.bankappmobile.common.SessionManager
 import com.damlakarpus.bankappmobile.data.model.TransactionRequest
 import com.damlakarpus.bankappmobile.data.model.transaction.TransactionResponse
@@ -37,12 +39,7 @@ class TransactionFragment : Fragment() {
             val targetIban = binding.etTargetIban.text.toString().trim()
 
             if (amountText.isNotEmpty() && targetIban.isNotEmpty() && !SessionManager.iban.isNullOrEmpty()) {
-                val amountValue = try {
-                    amountText.toBigDecimal()
-                } catch (e: NumberFormatException) {
-                    null
-                }
-
+                val amountValue = amountText.toBigDecimalOrNull()
                 if (amountValue != null) {
                     val request = TransactionRequest(
                         accountIban = SessionManager.iban!!,
@@ -51,10 +48,10 @@ class TransactionFragment : Fragment() {
                     )
                     viewModel.transfer(request)
                 } else {
-                    Toast.makeText(requireContext(), "Geçerli bir tutar girin", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.error_invalid_amount), Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(requireContext(), "Lütfen tüm alanları doldurun", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.error_fill_all_fields), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -65,19 +62,12 @@ class TransactionFragment : Fragment() {
         viewModel.transactionResult.observe(viewLifecycleOwner) { response: TransactionResponse? ->
             response?.let {
                 if (it.success == true && it.transaction != null) {
-                    val transaction = it.transaction
-                    Toast.makeText(
-                        requireContext(),
-                        "İşlem başarılı!\nGönderilen IBAN: ${transaction.targetAccountIban}\nTutar: ${transaction.amount}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    findNavController().popBackStack()
+                    // Formu gizle, success animasyonunu göster
+                    setFormEnabled(false)
+                    binding.progressBar.visibility = View.GONE
+                    showSuccessAndExit()
                 } else {
-                    Toast.makeText(
-                        requireContext(),
-                        it.message ?: "Hata oluştu",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(requireContext(), it.message ?: getString(R.string.unknown_error), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -90,7 +80,39 @@ class TransactionFragment : Fragment() {
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.btnTransfer.isEnabled = !isLoading
         }
+    }
+
+    private fun showSuccessAndExit() {
+        val lottie: LottieAnimationView = binding.lottieSuccess
+        lottie.visibility = View.VISIBLE
+        lottie.playAnimation()
+
+        // Animasyon bitince geri dön
+        lottie.addAnimatorListener(object : com.airbnb.lottie.LottieListener<com.airbnb.lottie.LottieComposition?>,
+            android.animation.Animator.AnimatorListener {
+            override fun onAnimationStart(animation: android.animation.Animator) {}
+            override fun onAnimationEnd(animation: android.animation.Animator) {
+                if (isAdded) findNavController().popBackStack()
+            }
+            override fun onAnimationCancel(animation: android.animation.Animator) {
+                if (isAdded) findNavController().popBackStack()
+            }
+            override fun onAnimationRepeat(animation: android.animation.Animator) {}
+            override fun onResult(p0: com.airbnb.lottie.LottieComposition?) {}
+        })
+
+        // Güvenlik için 1500ms sonra yine geri dön (dinleyici tetiklenmezse)
+        lottie.postDelayed({
+            if (isAdded) findNavController().popBackStack()
+        }, 1500)
+    }
+
+    private fun setFormEnabled(enabled: Boolean) {
+        binding.etTargetIban.isEnabled = enabled
+        binding.etAmount.isEnabled = enabled
+        binding.btnTransfer.isEnabled = enabled
     }
 
     override fun onDestroyView() {

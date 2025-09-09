@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/transactionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,26 +13,26 @@
         android:id="@+id/etTargetIban"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Hedef IBAN"
+        android:hint="@string/transaction_hint_target_iban"
         android:inputType="text"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <!-- İşlem miktarı -->
     <EditText
         android:id="@+id/etAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Miktar giriniz"
+        android:hint="@string/transaction_hint_amount"
         android:inputType="numberDecimal"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <!-- Transfer butonu -->
     <Button
         android:id="@+id/btnTransfer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Transfer Yap"
-        android:layout_marginBottom="16dp"/>
+        android:text="@string/transaction_btn_transfer"
+        android:layout_marginBottom="16dp" />
 
     <!-- Yükleniyor göstergesi -->
     <ProgressBar
@@ -39,6 +40,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
+
+    <!-- Başarılı işlem animasyonu -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieSuccess"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        app:lottie_rawRes="@raw/success"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false"
+        android:layout_gravity="center" />
 
 </LinearLayout>

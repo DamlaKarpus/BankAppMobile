@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.damlakarpus.bankappmobile.R
 import com.damlakarpus.bankappmobile.data.model.transaction.Transaction
 import com.damlakarpus.bankappmobile.databinding.ItemTransactionBinding
 import java.text.NumberFormat
@@ -19,6 +20,7 @@ class TransactionAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(tx: Transaction) {
+            val context = binding.root.context
             val isOutgoing = tx.accountIban == currentIban // biz gönderdik mi?
 
             // Karşı tarafın IBAN’ı
@@ -30,16 +32,18 @@ class TransactionAdapter(
 
             // ÜST SATIR: Kullanıcı adı varsa onu göster, yoksa rol yaz
             val role = when {
-                tx.type.equals("TRANSFER", true) && isOutgoing -> "Alıcı"
-                tx.type.equals("TRANSFER", true) && !isOutgoing -> "Gönderen"
-                tx.type.equals("DEPOSIT", true) -> "Para Yatırma"
-                tx.type.equals("WITHDRAW", true) -> "Para Çekme"
-                else -> "İşlem"
+                tx.type.equals("TRANSFER", true) && isOutgoing -> context.getString(R.string.role_receiver)
+                tx.type.equals("TRANSFER", true) && !isOutgoing -> context.getString(R.string.role_sender)
+                tx.type.equals("DEPOSIT", true) -> context.getString(R.string.role_deposit)
+                tx.type.equals("WITHDRAW", true) -> context.getString(R.string.role_withdraw)
+                else -> context.getString(R.string.role_transaction)
             }
             binding.tvUserName.text = tx.targetUserName?.takeIf { it.isNotBlank() } ?: role
 
             // ALT SATIR: IBAN
-            binding.tvReceiverIban.text = counterpartyIban?.let { "IBAN: $it" } ?: "IBAN bilgisi yok"
+            binding.tvReceiverIban.text = counterpartyIban?.let {
+                context.getString(R.string.iban_label, it)
+            } ?: context.getString(R.string.iban_missing)
 
             // TUTAR
             val amountText = tx.amount?.let {

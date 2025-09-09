@@ -1,3 +1,102 @@
 <resources>
-    <string name="app_name">BankAppMobile</string>
+    <string name="app_name">BankApp</string>
+    <string name="unknown_error">Bilinmeyen hata</string>
+
+    <!-- ChatFragment Strings -->
+    <string name="chat_welcome">Merhaba 👋 Size nasıl yardımcı olabilirim?</string>
+    <string name="chat_transfer">Tabii 💸 sizi para transferi ekranına yönlendiriyorum...</string>
+    <string name="chat_history">Hemen 📑 son işlemlerinizi açıyorum...</string>
+    <string name="chat_balance">Şu anki bakiyeniz: %1$s</string>
+    <string name="chat_iban">IBAN bilginiz: %1$s\n👉 Üzerine uzun basarak kopyalayabilirsiniz.</string>
+    <string name="chat_register">Sizi kayıt ekranına yönlendiriyorum 📝</string>
+    <string name="chat_login">Sizi giriş ekranına yönlendiriyorum 🔑</string>
+    <string name="chat_unknown">Bunu tam anlayamadım 🤔\n👉 para gönder, işlemler, bakiye, iban, kayıt ol veya giriş diyebilirsiniz.</string>
+    <string name="chat_no_iban">Kayıtlı IBAN bulunamadı.</string>
+
+    <!-- AccountAdapter Strings -->
+    <string name="account_number">Hesap #%1$d</string>
+
+    <!-- Dashboard Strings -->
+    <string name="please_login">Lütfen giriş yapın</string>
+    <string name="hello_user">Hoşgeldin, %1$s!</string>
+    <string name="iban">IBAN: %1$s</string>
+    <string name="balance">Bakiye: %1$s ₺</string>
+    <string name="default_account_name">Vadesiz Hesap</string>
+
+    <string name="error_no_token">Token bulunamadı, lütfen giriş yapın.</string>
+    <string name="error_no_account">Hesap bulunamadı.</string>
+    <string name="error_load_failed">Hesaplar yüklenemedi.</string>
+
+    <string name="role_receiver">Alıcı</string>
+    <string name="role_sender">Gönderen</string>
+    <string name="role_deposit">Para Yatırma</string>
+    <string name="role_withdraw">Para Çekme</string>
+    <string name="role_transaction">İşlem</string>
+    <string name="iban_label">IBAN: %1$s</string>
+    <string name="iban_missing">IBAN bilgisi yok</string>
+
+    <string name="login_fill_all_fields">Lütfen tüm alanları doldurun</string>
+    <string name="login_success">Giriş başarılı!</string>
+
+    <string name="register_fill_all">Lütfen tüm alanları doldurun</string>
+    <string name="register_success">Kayıt başarılı</string>
+    <string name="register_failed">Kayıt başarısız: %1$s</string>
+
+    <string name="error_invalid_amount">Geçerli bir tutar girin</string>
+    <string name="error_fill_all_fields">Lütfen tüm alanları doldurun</string>
+    <string name="transaction_success">İşlem başarılı!\nGönderilen IBAN: %1$s\nTutar: %2$s</string>
+
+    <string name="error_invalid_token_or_iban">IBAN veya token geçersiz!</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Şifre</string>
+    <string name="btn_login">Giriş Yap</string>
+    <string name="link_register">Hesabın yok mu? Kayıt ol</string>
+
+    <string name="register_username">Ad Soyad</string>
+    <string name="register_email">Email</string>
+    <string name="register_password">Şifre</string>
+    <string name="register_button">Kayıt Ol</string>
+    <string name="register_go_login">Hesabın var mı? Giriş yap</string>
+
+    <!-- Dashboard Strings -->
+    <string name="dashboard_welcome">Hoşgeldin</string>
+    <string name="dashboard_account_name">Vadesiz Hesap</string>
+    <string name="dashboard_iban">IBAN: -</string>
+    <string name="dashboard_balance">Bakiye: -</string>
+
+    <string name="dashboard_deposit">Para Yatır</string>
+    <string name="dashboard_withdraw">Para Çek</string>
+    <string name="dashboard_transfer">Para Gönder</string>
+
+    <string name="dashboard_recent_transactions">Son İşlemler</string>
+    <string name="dashboard_see_all">Tümünü Gör</string>
+
+    <string name="dashboard_chat">Sohbet</string>
+
+    <string name="transaction_hint_target_iban">Hedef IBAN</string>
+    <string name="transaction_hint_amount">Miktar giriniz</string>
+    <string name="transaction_btn_transfer">Transfer Yap</string>
+
+    <string name="all_transactions_title">Tüm İşlemler</string>
+
+    <string name="chat_title">ChatBot</string>
+    <string name="chat_hint">Mesaj yaz…</string>
+    <string name="chat_send">Gönder</string>
+    <string name="chat_loading_desc">Yükleniyor animasyonu</string>
+
+    <string name="chat_message_bot_default">Merhaba! Size nasıl yardımcı olabilirim?</string>
+    <string name="chat_message_user_default">Para göndermek istiyorum</string>
+
+    <!-- AccountAdapter Strings -->
+    <string name="account_name">Hesap #%1$d</string>
+
+    <string name="exit_title">Çıkış</string>
+    <string name="exit_message">Uygulamadan çıkmak istiyor musunuz?</string>
+    <string name="exit_yes">Evet</string>
+    <string name="exit_no">Hayır</string>
+
+    <string name="copy_iban">IBAN\u0027ı kopyala</string>
+    <string name="copy_iban_done">IBAN kopyalandı</string>
+
 </resources>

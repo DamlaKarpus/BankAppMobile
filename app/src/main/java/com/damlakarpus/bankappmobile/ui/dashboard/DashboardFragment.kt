@@ -5,14 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.damlakarpus.bankappmobile.R
-import com.damlakarpus.bankappmobile.databinding.FragmentDashboardBinding
 import com.damlakarpus.bankappmobile.common.SessionManager
+import com.damlakarpus.bankappmobile.databinding.FragmentDashboardBinding
 import com.damlakarpus.bankappmobile.viewmodel.TransactionViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.text.NumberFormat
+import java.util.Locale
 
 class DashboardFragment : Fragment() {
 
@@ -35,19 +39,38 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Geri tuşu: çıkış diyaloğu
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    showExitDialog()
+                }
+            }
+        )
+
         // Token yoksa login sayfasına dön
         if (SessionManager.token.isNullOrEmpty()) {
-            Toast.makeText(requireContext(), "Lütfen giriş yapın", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.please_login), Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.loginFragment)
             return
         }
 
-        // Kullanıcı bilgilerini göster (SessionManager’dan)
-        binding.tvHello.text = "Hoşgeldin, ${SessionManager.userName ?: "Kullanıcı"}!"
-        binding.tvIban.text = "IBAN: ${SessionManager.iban ?: "Yok"}"
-        binding.tvBalance.text = "Bakiye: ${SessionManager.balance ?: 0.0} ₺"
+        // Kullanıcı bilgileri
+        val formattedBalance = NumberFormat.getCurrencyInstance(Locale("tr", "TR"))
+            .format(SessionManager.balance ?: 0.0)
 
-        // RecyclerView setup (Son 3 işlem için) -> burada kendi IBAN’ını parametre geçiyoruz
+        binding.tvHello.text = getString(
+            R.string.hello_user,
+            SessionManager.userName ?: getString(R.string.app_name)
+        )
+        binding.tvIban.text = getString(
+            R.string.iban,
+            SessionManager.iban ?: getString(R.string.chat_no_iban)
+        )
+        binding.tvBalance.text = getString(R.string.balance, formattedBalance)
+
+        // RecyclerView (Son 3 işlem)
         transactionAdapter = TransactionAdapter(currentIban = SessionManager.iban.orEmpty())
         binding.rvRecentTransactions.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -57,17 +80,17 @@ class DashboardFragment : Fragment() {
         // Hesapları yükle
         viewModel.loadAccounts()
 
-        // Para Gönder butonu
+        // Para Gönder
         binding.btnTransfer.setOnClickListener {
             findNavController().navigate(R.id.action_dashboardFragment_to_transactionFragment)
         }
 
-        // Tüm İşlemler butonu
+        // Tüm İşlemler
         binding.btnAllTransactions.setOnClickListener {
             findNavController().navigate(R.id.action_dashboardFragment_to_allTransactionsFragment)
         }
 
-        // ✅ Chat butonu
+        // Chat
         binding.btnChat.setOnClickListener {
             findNavController().navigate(R.id.chatFragment)
         }
@@ -80,20 +103,23 @@ class DashboardFragment : Fragment() {
         // Hesap bilgisi
         viewModel.accounts.observe(viewLifecycleOwner) { accounts ->
             accounts.firstOrNull()?.let { account ->
-                binding.tvAccountName.text = "Vadesiz Hesap"
-                binding.tvIban.text = "IBAN: ${account.iban}"
-                binding.tvBalance.text = "Bakiye: ${account.balance} ₺"
+                val formattedBalance = NumberFormat.getCurrencyInstance(Locale("tr", "TR"))
+                    .format(account.balance)
+
+                binding.tvAccountName.text = getString(R.string.default_account_name)
+                binding.tvIban.text = getString(R.string.iban, account.iban)
+                binding.tvBalance.text = getString(R.string.balance, formattedBalance)
 
                 // Session güncelle
                 SessionManager.iban = account.iban
                 SessionManager.balance = account.balance
 
-                // ✅ Hesap bilgisi geldikten sonra son 3 işlemi getir
+                // Son 3 işlem
                 transactionViewModel.fetchRecentTransactions(account.iban)
             }
         }
 
-        // Hata gözlemleri
+        // Hata
         viewModel.error.observe(viewLifecycleOwner) { error ->
             error?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
@@ -109,10 +135,21 @@ class DashboardFragment : Fragment() {
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
-        // Son 3 işlem gözlemi
+        // Son 3 işlem listesi
         transactionViewModel.recentTransactions.observe(viewLifecycleOwner) { transactions ->
             transactionAdapter.submitList(transactions)
         }
+    }
+
+    private fun showExitDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.exit_title))
+            .setMessage(getString(R.string.exit_message))
+            .setPositiveButton(getString(R.string.exit_yes)) { _, _ ->
+                requireActivity().finishAffinity()
+            }
+            .setNegativeButton(getString(R.string.exit_no), null)
+            .show()
     }
 
     override fun onDestroyView() {

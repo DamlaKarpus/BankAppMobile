@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.damlakarpus.bankappmobile.R
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -37,7 +38,11 @@ open class BaseActivity : AppCompatActivity() {
                 }
                 is Resource.Error -> {
                     progressBar?.visibility = View.GONE
-                    Toast.makeText(this, resource.message ?: "Bilinmeyen hata", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        resource.message ?: getString(R.string.unknown_error),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         })

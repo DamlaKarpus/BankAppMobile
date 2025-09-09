@@ -16,7 +16,12 @@ class AccountAdapter : ListAdapter<Account, AccountAdapter.AccountViewHolder>(Di
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(account: Account) {
-            binding.tvAccountName.text = "Hesap #${account.id}" // Eğer isim varsa account.name kullanabilirsin
+            // Hesap ismini string resource üzerinden göster
+            binding.tvAccountName.text = binding.root.context.getString(
+                com.damlakarpus.bankappmobile.R.string.account_name,
+                account.id
+            )
+
             binding.tvIban.text = account.iban
 
             // Balance’ı para birimi formatıyla göster

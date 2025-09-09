@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.LiveData
+import com.damlakarpus.bankappmobile.R
 import com.damlakarpus.bankappmobile.common.SessionManager
 import com.damlakarpus.bankappmobile.data.model.TransactionRequest
 import com.damlakarpus.bankappmobile.data.model.transaction.Transaction
@@ -48,7 +49,7 @@ class TransactionViewModel : ViewModel() {
         accountIban ?: return
 
         safeLaunch {
-            val response = repository.getTransactions(accountIban) // TransactionResponse
+            val response = repository.getTransactions(accountIban)
             val transactions = response.transactions.orEmpty()
             _recentTransactions.value = transactions
                 .sortedByDescending { it.transactionTime }
@@ -60,12 +61,12 @@ class TransactionViewModel : ViewModel() {
     fun fetchAllTransactions(accountIban: String?) {
         val token = SessionManager.token
         if (accountIban.isNullOrEmpty() || token.isNullOrEmpty()) {
-            _error.value = "IBAN veya token geçersiz!"
+            _error.value = "error_invalid_token_or_iban" // strings.xml’den
             return
         }
 
         safeLaunch {
-            val response = repository.getTransactions(accountIban) // TransactionResponse
+            val response = repository.getTransactions(accountIban)
             val transactions = response.transactions.orEmpty()
             _allTransactions.value = transactions.sortedByDescending { it.transactionTime }
         }
@@ -79,7 +80,7 @@ class TransactionViewModel : ViewModel() {
                 block()
                 _error.value = null
             } catch (e: Exception) {
-                _error.value = e.message ?: "Bilinmeyen bir hata oluştu"
+                _error.value = e.message ?: "unknown_error"
             } finally {
                 _isLoading.value = false
             }
