@@ -22,6 +22,12 @@ class DashboardViewModel(
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
+    companion object {
+        const val ERROR_NO_TOKEN = "error_no_token"
+        const val ERROR_NO_ACCOUNT = "error_no_account"
+        const val ERROR_LOAD_FAILED = "error_load_failed"
+    }
+
     /**
      * Token ile hesapları yükler.
      * Eğer token yoksa hata verir.
@@ -30,7 +36,7 @@ class DashboardViewModel(
     fun loadAccounts() {
         val token = SessionManager.token
         if (token.isNullOrBlank()) {
-            _error.value = "Token bulunamadı, lütfen giriş yapın."
+            _error.value = ERROR_NO_TOKEN
             return
         }
 
@@ -40,7 +46,7 @@ class DashboardViewModel(
                 val accountList = repository.getAccounts("Bearer $token")
 
                 if (accountList.isNullOrEmpty()) {
-                    _error.value = "Hesap bulunamadı."
+                    _error.value = ERROR_NO_ACCOUNT
                     _accounts.value = emptyList()
                 } else {
                     _accounts.value = accountList
@@ -54,7 +60,7 @@ class DashboardViewModel(
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                _error.value = "Hesaplar yüklenemedi: ${e.localizedMessage ?: "Bilinmeyen hata"}"
+                _error.value = ERROR_LOAD_FAILED
             } finally {
                 _isLoading.value = false
             }

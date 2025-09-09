@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.damlakarpus.bankappmobile.R
 import com.damlakarpus.bankappmobile.base.BaseFragment
 import com.damlakarpus.bankappmobile.base.Resource
 import com.damlakarpus.bankappmobile.data.model.register.RegisterRequest
@@ -30,32 +31,64 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
             val password = binding.etPassword.text.toString().trim()
 
             if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(requireContext(), "Lütfen tüm alanları doldurun", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.register_fill_all),
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
             val request = RegisterRequest(username, email, password)
 
-            // LiveData gözlemle
             viewModel.registerUser(request).observe(viewLifecycleOwner) { resource ->
-
                 when (resource) {
+                    is Resource.Loading -> setLoading(true)
+
                     is Resource.Success -> {
-                        Toast.makeText(requireContext(), "Kayıt başarılı", Toast.LENGTH_SHORT).show()
-                        findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
+                        setLoading(false)
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.register_success),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        findNavController().navigate(
+                            RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+                        )
                     }
+
                     is Resource.Error -> {
-                        Toast.makeText(requireContext(), "Kayıt başarısız: ${resource.message ?: "Bilinmeyen hata"}", Toast.LENGTH_SHORT).show()
-                    }
-                    is Resource.Loading -> {
-                        // İstersen progress bar gösterebilirsin
+                        setLoading(false)
+                        Toast.makeText(
+                            requireContext(),
+                            getString(
+                                R.string.register_failed,
+                                resource.message ?: getString(R.string.unknown_error)
+                            ),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
         }
 
         binding.tvGoLogin.setOnClickListener {
-            findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToLoginFragment())
+            findNavController().navigate(
+                RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
+            )
         }
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        // Lottie görünürlüğü
+        binding.lottieLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
+        if (isLoading) binding.lottieLoading.playAnimation() else binding.lottieLoading.pauseAnimation()
+
+        // Formu kilitle
+        binding.etUsername.isEnabled = !isLoading
+        binding.etEmail.isEnabled = !isLoading
+        binding.etPassword.isEnabled = !isLoading
+        binding.btnRegister.isEnabled = !isLoading
+        binding.tvGoLogin.isEnabled = !isLoading
     }
 }

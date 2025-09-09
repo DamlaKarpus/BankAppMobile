@@ -12,7 +12,7 @@
         android:id="@+id/etTargetIban"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Hedef IBAN"
+        android:hint="@string/transaction_hint_target_iban"
         android:inputType="text"
         android:layout_marginBottom="16dp"/>
 
@@ -21,7 +21,7 @@
         android:id="@+id/etAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Miktar giriniz"
+        android:hint="@string/transaction_hint_amount"
         android:inputType="numberDecimal"
         android:layout_marginBottom="16dp"/>
 
@@ -30,7 +30,7 @@
         android:id="@+id/btnTransfer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Transfer Yap"
+        android:text="@string/transaction_btn_transfer"
         android:layout_marginBottom="16dp"/>
 
     <!-- Yükleniyor göstergesi -->
@@ -40,5 +40,4 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:layout_gravity="center"/>
-
 </LinearLayout>

@@ -10,6 +10,7 @@ import com.damlakarpus.bankappmobile.data.model.register.RegisterRequest
 import com.damlakarpus.bankappmobile.data.model.register.RegisterResponse
 import kotlinx.coroutines.Dispatchers
 import retrofit2.HttpException
+import com.google.gson.Gson
 
 class RegisterViewModel : BaseViewModel() {
 
@@ -19,21 +20,20 @@ class RegisterViewModel : BaseViewModel() {
         return liveData(Dispatchers.IO) {
             emit(Resource.Loading())
             try {
-                val response = api.register(request) // Retrofit suspend, direkt RegisterResponse
+                val response = api.register(request) // Retrofit suspend -> RegisterResponse
                 val message = response.message.orEmpty()
 
-                // Kayıt başarılıysa Success emit et
-                if (response.success == true || message.contains("başarılı", ignoreCase = true)) {
+                if (response.success == true) {
                     emit(Resource.Success(response))
                 } else {
-                    emit(Resource.Error(message.ifEmpty { "Kayıt başarısız" }))
+                    // Boş mesaj varsa generic hata döndür
+                    emit(Resource.Error(message.ifEmpty { "register_failed" }))
                 }
 
             } catch (e: HttpException) {
-                // 400 veya 500 durumunda bile response body varsa parse et
                 val errorBody = e.response()?.errorBody()?.string().orEmpty()
                 val errorResponse = try {
-                    com.google.gson.Gson().fromJson(errorBody, RegisterResponse::class.java)
+                    Gson().fromJson(errorBody, RegisterResponse::class.java)
                 } catch (_: Exception) {
                     null
                 }
@@ -42,12 +42,12 @@ class RegisterViewModel : BaseViewModel() {
                     emit(Resource.Success(errorResponse))
                 } else {
                     val msg = errorResponse?.message
-                        ?: errorBody.ifEmpty { "HTTP ${e.code()}: ${e.message()}" }
+                        ?: errorBody.ifEmpty { "http_${e.code()}" }
                     emit(Resource.Error(msg))
                 }
 
             } catch (e: Exception) {
-                emit(Resource.Error(e.localizedMessage ?: "Bilinmeyen hata oluştu"))
+                emit(Resource.Error(e.localizedMessage ?: "unknown_error"))
             }
         }
     }

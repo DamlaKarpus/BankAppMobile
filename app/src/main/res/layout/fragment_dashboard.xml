@@ -12,12 +12,12 @@
         android:id="@+id/tvHello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hoşgeldin"
+        android:text="@string/dashboard_welcome"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- ProgressBar -->
     <ProgressBar
@@ -28,7 +28,7 @@
         style="?android:attr/progressBarStyleLarge"
         app:layout_constraintTop_toBottomOf="@id/tvHello"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Seçilen Hesap Bilgileri Kartı -->
     <androidx.cardview.widget.CardView
@@ -52,26 +52,26 @@
                 android:id="@+id/tvAccountName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vadesiz Hesap"
+                android:text="@string/dashboard_account_name"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/tvIban"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="IBAN: -"
+                android:text="@string/dashboard_iban"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tvBalance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bakiye: -"
+                android:text="@string/dashboard_balance"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -99,29 +99,29 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Para Yatır"/>
+                android:text="@string/dashboard_deposit" />
 
             <Space
                 android:layout_width="12dp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btnWithdraw"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Para Çek"/>
+                android:text="@string/dashboard_withdraw" />
 
             <Space
                 android:layout_width="12dp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btnTransfer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Para Gönder"/>
+                android:text="@string/dashboard_transfer" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -155,20 +155,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Son İşlemler"
+                    android:text="@string/dashboard_recent_transactions"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/btnAllTransactions"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tümünü Gör"
+                    android:text="@string/dashboard_see_all"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="@color/purple_500"/>
+                    android:textColor="@color/purple_500" />
             </LinearLayout>
 
             <!-- Son 3 işlem için RecyclerView -->
@@ -178,7 +178,7 @@
                 android:layout_height="wrap_content"
                 android:maxHeight="200dp"
                 android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/item_transaction"/>
+                tools:listitem="@layout/item_transaction" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -187,12 +187,12 @@
         android:id="@+id/btnChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="Chat"
+        android:contentDescription="@string/dashboard_chat"
         app:srcCompat="@android:drawable/ic_dialog_email"
         app:backgroundTint="@color/purple_500"
         app:tint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="20dp"/>
+        android:layout_margin="20dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

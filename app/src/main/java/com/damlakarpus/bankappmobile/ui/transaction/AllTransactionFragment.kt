@@ -8,10 +8,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.damlakarpus.bankappmobile.R
 import com.damlakarpus.bankappmobile.common.SessionManager
 import com.damlakarpus.bankappmobile.databinding.FragmentAllTransactionsBinding
-import com.damlakarpus.bankappmobile.viewmodel.TransactionViewModel
 import com.damlakarpus.bankappmobile.ui.dashboard.TransactionAdapter
+import com.damlakarpus.bankappmobile.viewmodel.TransactionViewModel
 
 class AllTransactionsFragment : Fragment() {
 
@@ -39,8 +40,15 @@ class AllTransactionsFragment : Fragment() {
             adapter = transactionAdapter
         }
 
+        // Eğer IBAN null veya boşsa uyarı verelim
+        val currentIban = SessionManager.iban
+        if (currentIban.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), getString(R.string.chat_no_iban), Toast.LENGTH_SHORT).show()
+            return
+        }
+
         // Tüm işlemleri getir
-        viewModel.fetchAllTransactions(SessionManager.iban)
+        viewModel.fetchAllTransactions(currentIban)
 
         // Observer
         viewModel.allTransactions.observe(viewLifecycleOwner) { transactions ->

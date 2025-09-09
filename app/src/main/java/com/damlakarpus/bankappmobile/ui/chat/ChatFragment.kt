@@ -11,6 +11,7 @@ import com.damlakarpus.bankappmobile.R
 import com.damlakarpus.bankappmobile.common.SessionManager
 import com.damlakarpus.bankappmobile.data.model.chat.ChatMessage
 import com.damlakarpus.bankappmobile.databinding.FragmentChatBinding
+import java.text.NumberFormat
 import java.util.Locale
 
 class ChatFragment : Fragment() {
@@ -41,7 +42,7 @@ class ChatFragment : Fragment() {
 
         // ✅ Eğer sohbet boşsa ilk bot mesajını ekle
         if (messages.isEmpty()) {
-            addBotMessage("Merhaba 👋 Size nasıl yardımcı olabilirim?")
+            addBotMessage(getString(R.string.chat_welcome))
         }
 
         // Gönder butonu
@@ -91,35 +92,51 @@ class ChatFragment : Fragment() {
         val input = userText.lowercase(Locale("tr", "TR"))
 
         when {
-            listOf("para gönder", "gönder", "transfer", "para gonder", "para yolla").any { input.contains(it) } -> {
-                addBotMessage("Tabii 💸 sizi para transferi ekranına yönlendiriyorum...")
+            listOf("para gönder", "gönder", "transfer", "para gonder", "para yolla")
+                .any { input.contains(it) } -> {
+                addBotMessage(getString(R.string.chat_transfer))
                 showLoadingAndNavigate(R.id.action_chatFragment_to_transactionFragment)
             }
-            listOf("işlem", "işlemler", "geçmiş", "hareket", "islem", "islemler").any { input.contains(it) } -> {
-                addBotMessage("Hemen 📑 son işlemlerinizi açıyorum...")
+
+            listOf("işlem", "işlemler", "geçmiş", "hareket", "islem", "islemler")
+                .any { input.contains(it) } -> {
+                addBotMessage(getString(R.string.chat_history))
                 showLoadingAndNavigate(R.id.action_chatFragment_to_allTransactionsFragment)
             }
-            listOf("bakiye", "hesap", "param").any { input.contains(it) } -> {
+
+            listOf("bakiye", "hesap", "param")
+                .any { input.contains(it) } -> {
                 val balance = SessionManager.balance ?: 0.0
-                addBotMessage("Şu anki bakiyeniz: $balance ₺")
+                val formatted = NumberFormat
+                    .getCurrencyInstance(Locale("tr", "TR"))
+                    .format(balance)
+                addBotMessage(getString(R.string.chat_balance, formatted))
             }
-            listOf("iban", "hesap no").any { input.contains(it) } -> {
-                val iban = SessionManager.iban ?: "Kayıtlı IBAN bulunamadı."
-                addBotMessage("IBAN bilginiz: $iban\n👉 Üzerine uzun basarak kopyalayabilirsiniz.")
+
+            listOf("iban", "hesap no")
+                .any { input.contains(it) } -> {
+                val iban = SessionManager.iban ?: getString(R.string.chat_no_iban)
+                addBotMessage(getString(R.string.chat_iban, iban))
             }
-            listOf("kayıt", "üye ol", "hesap aç").any { input.contains(it) } -> {
-                addBotMessage("Sizi kayıt ekranına yönlendiriyorum 📝")
+
+            listOf("kayıt", "üye ol", "hesap aç")
+                .any { input.contains(it) } -> {
+                addBotMessage(getString(R.string.chat_register))
                 showLoadingAndNavigate(R.id.registerFragment)
             }
-            listOf("giriş", "login", "giris").any { input.contains(it) } -> {
-                addBotMessage("Sizi giriş ekranına yönlendiriyorum 🔑")
+
+            listOf("giriş", "login", "giris")
+                .any { input.contains(it) } -> {
+                addBotMessage(getString(R.string.chat_login))
                 showLoadingAndNavigate(R.id.loginFragment)
             }
+
             else -> {
-                addBotMessage("Bunu tam anlayamadım 🤔\n👉 'para gönder', 'işlemler', 'bakiye', 'iban', 'kayıt ol' veya 'giriş' diyebilirsiniz.")
+                addBotMessage(getString(R.string.chat_unknown))
             }
         }
     }
+
 
     private fun showLoadingAndNavigate(destinationId: Int) {
         val loadingMsg = addLoadingMessage()

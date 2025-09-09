@@ -1,0 +1,95 @@
+<resources>
+    <string name="app_name">BankApp</string>
+    <string name="unknown_error">Unknown error</string>
+
+    <!-- ChatFragment Strings -->
+    <string name="chat_welcome">Hello 👋 How can I help you?</string>
+    <string name="chat_transfer">Sure 💸 redirecting you to the transfer screen...</string>
+    <string name="chat_history">Opening 📑 your recent transactions...</string>
+    <string name="chat_balance">Your current balance: %1$s</string>
+    <string name="chat_iban">Your IBAN: %1$s\n👉 Long press to copy.</string>
+    <string name="chat_register">Redirecting you to the registration screen 📝</string>
+    <string name="chat_login">Redirecting you to the login screen 🔑</string>
+    <string name="chat_unknown">I didn’t quite understand 🤔\n👉 You can try transfer, transactions, balance, iban, register, or login.</string>
+    <string name="chat_no_iban">No saved IBAN found.</string>
+
+    <!-- AccountAdapter Strings -->
+    <string name="account_number">Account #%1$d</string>
+
+    <!-- Dashboard Strings -->
+    <string name="please_login">Please log in</string>
+    <string name="hello_user">Welcome, %1$s!</string>
+    <string name="iban">IBAN: %1$s</string>
+    <string name="balance">Balance: %1$s ₺</string>
+    <string name="default_account_name">Checking Account</string>
+
+    <string name="error_no_token">Token not found, please log in.</string>
+    <string name="error_no_account">No account found.</string>
+    <string name="error_load_failed">Failed to load accounts.</string>
+
+    <string name="role_receiver">Receiver</string>
+    <string name="role_sender">Sender</string>
+    <string name="role_deposit">Deposit</string>
+    <string name="role_withdraw">Withdraw</string>
+    <string name="role_transaction">Transaction</string>
+    <string name="iban_label">IBAN: %1$s</string>
+    <string name="iban_missing">No IBAN available</string>
+
+    <string name="login_fill_all_fields">Please fill in all fields</string>
+    <string name="login_success">Login successful!</string>
+
+    <string name="register_fill_all">Please fill in all fields</string>
+    <string name="register_success">Registration successful</string>
+    <string name="register_failed">Registration failed: %1$s</string>
+
+    <string name="error_invalid_amount">Please enter a valid amount</string>
+    <string name="error_fill_all_fields">Please fill in all fields</string>
+    <string name="transaction_success">Transaction successful!\nSent IBAN: %1$s\nAmount: %2$s</string>
+
+    <string name="error_invalid_token_or_iban">IBAN or token is invalid!</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">Login</string>
+    <string name="link_register">Don’t have an account? Register</string>
+
+    <string name="register_username">Full Name</string>
+    <string name="register_email">Email</string>
+    <string name="register_password">Password</string>
+    <string name="register_button">Sign Up</string>
+    <string name="register_go_login">Already have an account? Log in</string>
+
+    <!-- Dashboard Strings -->
+    <string name="dashboard_welcome">Welcome</string>
+    <string name="dashboard_account_name">Checking Account</string>
+    <string name="dashboard_iban">IBAN: -</string>
+    <string name="dashboard_balance">Balance: -</string>
+
+    <string name="dashboard_deposit">Deposit</string>
+    <string name="dashboard_withdraw">Withdraw</string>
+    <string name="dashboard_transfer">Transfer</string>
+
+    <string name="dashboard_recent_transactions">Recent Transactions</string>
+    <string name="dashboard_see_all">See All</string>
+
+    <string name="dashboard_chat">Chat</string>
+
+    <string name="transaction_hint_target_iban">Target IBAN</string>
+    <string name="transaction_hint_amount">Enter amount</string>
+    <string name="transaction_btn_transfer">Make Transfer</string>
+
+    <string name="all_transactions_title">All Transactions</string>
+
+    <string name="chat_title">ChatBot</string>
+    <string name="chat_hint">Type a message…</string>
+    <string name="chat_send">Send</string>
+    <string name="chat_loading_desc">Loading animation</string>
+
+    <string name="chat_message_bot_default">Hello! How can I help you?</string>
+    <string name="chat_message_user_default">I want to send money</string>
+
+    <string name="account_name">Account #%1$d</string>
+
+
+
+</resources>

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.damlakarpus.bankappmobile.R
 import com.damlakarpus.bankappmobile.common.SessionManager
 import com.damlakarpus.bankappmobile.data.model.TransactionRequest
 import com.damlakarpus.bankappmobile.data.model.transaction.TransactionResponse
@@ -51,10 +52,10 @@ class TransactionFragment : Fragment() {
                     )
                     viewModel.transfer(request)
                 } else {
-                    Toast.makeText(requireContext(), "Geçerli bir tutar girin", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.error_invalid_amount), Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(requireContext(), "Lütfen tüm alanları doldurun", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.error_fill_all_fields), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -68,14 +69,14 @@ class TransactionFragment : Fragment() {
                     val transaction = it.transaction
                     Toast.makeText(
                         requireContext(),
-                        "İşlem başarılı!\nGönderilen IBAN: ${transaction.targetAccountIban}\nTutar: ${transaction.amount}",
+                        getString(R.string.transaction_success, transaction.targetAccountIban, transaction.amount.toString()),
                         Toast.LENGTH_LONG
                     ).show()
                     findNavController().popBackStack()
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        it.message ?: "Hata oluştu",
+                        it.message ?: getString(R.string.unknown_error),
                         Toast.LENGTH_SHORT
                     ).show()
                 }

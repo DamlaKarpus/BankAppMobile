@@ -13,6 +13,8 @@ import com.damlakarpus.bankappmobile.R
 import com.damlakarpus.bankappmobile.databinding.FragmentDashboardBinding
 import com.damlakarpus.bankappmobile.common.SessionManager
 import com.damlakarpus.bankappmobile.viewmodel.TransactionViewModel
+import java.text.NumberFormat
+import java.util.*
 
 class DashboardFragment : Fragment() {
 
@@ -37,17 +39,22 @@ class DashboardFragment : Fragment() {
 
         // Token yoksa login sayfasına dön
         if (SessionManager.token.isNullOrEmpty()) {
-            Toast.makeText(requireContext(), "Lütfen giriş yapın", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.please_login), Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.loginFragment)
             return
         }
 
         // Kullanıcı bilgilerini göster (SessionManager’dan)
-        binding.tvHello.text = "Hoşgeldin, ${SessionManager.userName ?: "Kullanıcı"}!"
-        binding.tvIban.text = "IBAN: ${SessionManager.iban ?: "Yok"}"
-        binding.tvBalance.text = "Bakiye: ${SessionManager.balance ?: 0.0} ₺"
+        val formattedBalance = NumberFormat.getCurrencyInstance(Locale("tr", "TR"))
+            .format(SessionManager.balance ?: 0.0)
 
-        // RecyclerView setup (Son 3 işlem için) -> burada kendi IBAN’ını parametre geçiyoruz
+        binding.tvHello.text =
+            getString(R.string.hello_user, SessionManager.userName ?: getString(R.string.app_name))
+        binding.tvIban.text =
+            getString(R.string.iban, SessionManager.iban ?: getString(R.string.chat_no_iban))
+        binding.tvBalance.text = getString(R.string.balance, formattedBalance)
+
+        // RecyclerView setup (Son 3 işlem için)
         transactionAdapter = TransactionAdapter(currentIban = SessionManager.iban.orEmpty())
         binding.rvRecentTransactions.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -67,7 +74,7 @@ class DashboardFragment : Fragment() {
             findNavController().navigate(R.id.action_dashboardFragment_to_allTransactionsFragment)
         }
 
-        // ✅ Chat butonu
+        // Chat butonu
         binding.btnChat.setOnClickListener {
             findNavController().navigate(R.id.chatFragment)
         }
@@ -80,15 +87,18 @@ class DashboardFragment : Fragment() {
         // Hesap bilgisi
         viewModel.accounts.observe(viewLifecycleOwner) { accounts ->
             accounts.firstOrNull()?.let { account ->
-                binding.tvAccountName.text = "Vadesiz Hesap"
-                binding.tvIban.text = "IBAN: ${account.iban}"
-                binding.tvBalance.text = "Bakiye: ${account.balance} ₺"
+                val formattedBalance = NumberFormat.getCurrencyInstance(Locale("tr", "TR"))
+                    .format(account.balance)
+
+                binding.tvAccountName.text = getString(R.string.default_account_name)
+                binding.tvIban.text = getString(R.string.iban, account.iban)
+                binding.tvBalance.text = getString(R.string.balance, formattedBalance)
 
                 // Session güncelle
                 SessionManager.iban = account.iban
                 SessionManager.balance = account.balance
 
-                // ✅ Hesap bilgisi geldikten sonra son 3 işlemi getir
+                // Hesap bilgisi geldikten sonra son 3 işlemi getir
                 transactionViewModel.fetchRecentTransactions(account.iban)
             }
         }

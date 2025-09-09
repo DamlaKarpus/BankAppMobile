@@ -2,6 +2,7 @@ package com.damlakarpus.bankappmobile.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import com.damlakarpus.bankappmobile.R
 import kotlinx.coroutines.Dispatchers
 
 // Resource sınıfı: Loading, Success, Error durumlarını yönetmek için
@@ -24,7 +25,9 @@ open class BaseViewModel : ViewModel() {
             val result = request()
             emit(Resource.Success(result)) // Başarılı sonuç
         } catch (e: Exception) {
-            emit(Resource.Error(e.message ?: "Bilinmeyen Hata")) // Hata durumunda
+            // Hata mesajını strings.xml’den alıyoruz
+            val defaultMessage = "unknown_error" // key
+            emit(Resource.Error(e.message ?: defaultMessage))
         }
     }
 }

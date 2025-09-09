@@ -7,12 +7,12 @@
     android:padding="24dp"
     android:background="@color/background">
 
-    <!-- Kullanıcı Adı -->
+    <!-- Username -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Ad Soyad"
+        android:hint="@string/register_username"
         app:hintTextColor="?attr/colorOnBackground"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
         android:id="@+id/emailLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Email"
+        android:hint="@string/register_email"
         app:hintTextColor="?attr/colorOnBackground"
         app:layout_constraintTop_toBottomOf="@id/usernameLayout"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,12 +47,12 @@
             android:inputType="textEmailAddress"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Şifre -->
+    <!-- Password -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Şifre"
+        android:hint="@string/register_password"
         app:hintTextColor="?attr/colorOnBackground"
         app:layout_constraintTop_toBottomOf="@id/emailLayout"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,12 +67,12 @@
             android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Kayıt Butonu -->
+    <!-- Register Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Kayıt Ol"
+        android:text="@string/register_button"
         app:backgroundTint="?attr/colorPrimary"
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintTop_toBottomOf="@id/passwordLayout"
@@ -80,12 +80,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp"/>
 
-    <!-- Hesabın Var mı? -->
+    <!-- Already have an account? -->
     <TextView
         android:id="@+id/tvGoLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hesabın var mı? Giriş yap"
+        android:text="@string/register_go_login"
         android:textColor="?attr/colorPrimary"
         android:textSize="14sp"
         android:clickable="true"
@@ -95,15 +95,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
 
-    <!-- Progress Bar -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+    <!-- ✅ Lottie Loading Animation -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieLoading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:visibility="gone"
+        app:lottie_rawRes="@raw/loading_purple"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
