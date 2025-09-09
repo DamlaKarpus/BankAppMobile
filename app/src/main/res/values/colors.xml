@@ -9,4 +9,7 @@
     <color name="onSurface">#212121</color>
     <color name="error">#B00020</color>
     <color name="purple_500">#6200EE</color>
+    <color name="allTransactionsTitle">#000000</color> <!-- siyah -->
+    <color name="dashboardSeeAll">@color/purple_500</color>
+
 </resources>

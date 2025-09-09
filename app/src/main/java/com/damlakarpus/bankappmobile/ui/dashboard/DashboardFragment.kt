@@ -1,5 +1,8 @@
 package com.damlakarpus.bankappmobile.ui.dashboard
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,13 +42,11 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Geri tuşu: çıkış diyaloğu
+        // Donanım geri tuşu: çıkış diyaloğu
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    showExitDialog()
-                }
+                override fun handleOnBackPressed() = showExitDialog()
             }
         )
 
@@ -70,7 +71,19 @@ class DashboardFragment : Fragment() {
         )
         binding.tvBalance.text = getString(R.string.balance, formattedBalance)
 
-        // RecyclerView (Son 3 işlem)
+        // IBAN kopyala (ikon)
+        binding.btnCopyIban?.setOnClickListener {
+            val iban = SessionManager.iban
+            if (iban.isNullOrBlank()) {
+                Toast.makeText(requireContext(), getString(R.string.chat_no_iban), Toast.LENGTH_SHORT).show()
+            } else {
+                val cm = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                cm.setPrimaryClip(ClipData.newPlainText("IBAN", iban))
+                Toast.makeText(requireContext(), getString(R.string.copy_iban_done), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Son 3 işlem listesi
         transactionAdapter = TransactionAdapter(currentIban = SessionManager.iban.orEmpty())
         binding.rvRecentTransactions.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -95,7 +108,7 @@ class DashboardFragment : Fragment() {
             findNavController().navigate(R.id.chatFragment)
         }
 
-        // LiveData gözlemleme
+        // LiveData gözlemleri
         setupObservers()
     }
 

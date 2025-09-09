@@ -96,7 +96,7 @@
     <string name="exit_yes">Evet</string>
     <string name="exit_no">Hayır</string>
 
-    <string name="copy_iban">IBAN\u0027ı kopyala</string>
+    <string name="copy_iban">IBAN kopyala</string>
     <string name="copy_iban_done">IBAN kopyalandı</string>
 
 </resources>

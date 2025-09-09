@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/background"
     android:padding="16dp">
 
     <!-- Karşılama Metni -->
@@ -15,22 +15,22 @@
         android:text="@string/dashboard_welcome"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
+        android:textColor="@color/onBackground"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <!-- ProgressBar -->
     <ProgressBar
         android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        style="?android:attr/progressBarStyleLarge"
         app:layout_constraintTop_toBottomOf="@id/tvHello"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Seçilen Hesap Bilgileri Kartı -->
+    <!-- Hesap Kartı -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardAccount"
         android:layout_width="0dp"
@@ -42,37 +42,90 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_height="180dp">
 
+            <!-- Arka plan görseli: karta tam otursun -->
+            <ImageView
+                android:id="@+id/imgAccountBg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/card_purple" />
+
+            <!-- Hafif karartma -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#40000000" />
+
+            <!-- Metinler -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvAccountName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dashboard_account_name"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- IBAN satırı + kopyala ikonu -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="6dp">
+
+                    <TextView
+                        android:id="@+id/tvIban"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/dashboard_iban"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+
+                    <ImageButton
+                        android:id="@+id/btnCopyIban"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="8dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/copy_iban"
+                        app:srcCompat="@drawable/copy_icon" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvBalance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/dashboard_balance"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- VISA yazısı: alta sabit -->
             <TextView
-                android:id="@+id/tvAccountName"
+                android:id="@+id/tvVisa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/dashboard_account_name"
+                android:text="VISA"
+                android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:textSize="16sp"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/tvIban"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dashboard_iban"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvBalance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dashboard_balance"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-        </LinearLayout>
+                android:textSize="28sp"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"/>
+        </FrameLayout>
     </androidx.cardview.widget.CardView>
 
     <!-- İşlem Butonları -->
@@ -80,7 +133,7 @@
         android:id="@+id/cardButtons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
         app:layout_constraintTop_toBottomOf="@id/cardAccount"
@@ -134,7 +187,7 @@
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
         app:layout_constraintTop_toBottomOf="@id/cardButtons"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnChat"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -144,7 +197,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Başlık + Tümünü Gör sağda -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -153,13 +205,13 @@
                 android:layout_marginBottom="8dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/dashboard_recent_transactions"
                     android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:layout_weight="1" />
+                    android:textColor="@color/onBackground"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/btnAllTransactions"
@@ -168,31 +220,33 @@
                     android:text="@string/dashboard_see_all"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="@color/purple_500" />
+                    android:textColor="@color/dashboardSeeAll" />
             </LinearLayout>
 
-            <!-- Son 3 işlem için RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvRecentTransactions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxHeight="200dp"
                 android:nestedScrollingEnabled="false"
+                android:clipToPadding="false"
+                android:paddingBottom="12dp"
                 tools:listitem="@layout/item_transaction" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- ✅ Chat FAB -->
+    <!-- Chat FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:contentDescription="@string/dashboard_chat"
         app:srcCompat="@android:drawable/ic_dialog_email"
         app:backgroundTint="@color/purple_500"
         app:tint="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="20dp" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,7 +8,21 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- NavHostFragment -->
+    <!-- Üstte sabit, overlay toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:backgroundTint="@color/primaryDark"
+        app:title=""
+        app:logo="@drawable/ic_launcher_foreground"
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <!-- NavHost: içeriği aşağı itmemek için yine parent TOP'a bağlı -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
