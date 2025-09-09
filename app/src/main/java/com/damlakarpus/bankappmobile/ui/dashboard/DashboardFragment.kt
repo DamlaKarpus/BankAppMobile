@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.damlakarpus.bankappmobile.R
@@ -50,14 +51,15 @@ class DashboardFragment : Fragment() {
             }
         )
 
-        // Token yoksa login sayfasına dön
+        // 🚨 Token yoksa login sayfasına yönlendir
         if (SessionManager.token.isNullOrEmpty()) {
+            SessionManager.clearSession()
             Toast.makeText(requireContext(), getString(R.string.please_login), Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.loginFragment)
             return
         }
 
-        // Kullanıcı bilgileri
+        // Kullanıcı bilgileri ekrana bas
         val formattedBalance = NumberFormat.getCurrencyInstance(Locale("tr", "TR"))
             .format(SessionManager.balance ?: 0.0)
 
@@ -71,7 +73,7 @@ class DashboardFragment : Fragment() {
         )
         binding.tvBalance.text = getString(R.string.balance, formattedBalance)
 
-        // IBAN kopyala (ikon)
+        // IBAN kopyala
         binding.btnCopyIban?.setOnClickListener {
             val iban = SessionManager.iban
             if (iban.isNullOrBlank()) {
@@ -132,11 +134,11 @@ class DashboardFragment : Fragment() {
             }
         }
 
-        // Hata
+        // Hata yakala
         viewModel.error.observe(viewLifecycleOwner) { error ->
             error?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-                if (it.contains("Token bulunamadı") || it.contains("Hesap bulunamadı")) {
+                if (it.contains("Token") || it.contains("Hesap")) {
                     SessionManager.clearSession()
                     findNavController().navigate(R.id.loginFragment)
                 }
@@ -159,7 +161,12 @@ class DashboardFragment : Fragment() {
             .setTitle(getString(R.string.exit_title))
             .setMessage(getString(R.string.exit_message))
             .setPositiveButton(getString(R.string.exit_yes)) { _, _ ->
-                requireActivity().finishAffinity()
+                // ✅ Çıkış → oturum kapat ve login ekranına dön
+                SessionManager.clearSession()
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.dashboardFragment, true) // Dashboard dahil stack temizlensin
+                    .build()
+                findNavController().navigate(R.id.loginFragment, null, navOptions)
             }
             .setNegativeButton(getString(R.string.exit_no), null)
             .show()

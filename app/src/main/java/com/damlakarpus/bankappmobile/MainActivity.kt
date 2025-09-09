@@ -42,12 +42,11 @@ class MainActivity : BaseActivity() {
         val appBarConfig = AppBarConfiguration(setOf(navController.graph.startDestinationId))
         setupActionBarWithNavController(navController, appBarConfig)
 
-        // Toolbar sadece bu ekranlarda görünsün:
-        // dashboard + transaction akışları (id'leri kendi nav_graph id'lerinle eşleştir)
+        // ✅ Toolbar sadece bu ekranlarda görünsün (Dashboard hariç)
         val toolbarAllowedDestinations = setOf(
-            R.id.dashboardFragment,
             R.id.transactionFragment,     // para gönderme ana ekranı
-            R.id.allTransactionsFragment
+            R.id.allTransactionsFragment,
+            R.id.chatFragment             // örnek: chat ekranında gözüksün
         )
 
         navController.addOnDestinationChangedListener { _, destination, _ ->

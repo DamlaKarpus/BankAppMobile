@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,7 @@ import com.damlakarpus.bankappmobile.data.model.TransactionRequest
 import com.damlakarpus.bankappmobile.data.model.transaction.TransactionResponse
 import com.damlakarpus.bankappmobile.databinding.FragmentTransactionBinding
 import com.damlakarpus.bankappmobile.viewmodel.TransactionViewModel
+import com.google.android.material.appbar.MaterialToolbar
 
 class TransactionFragment : Fragment() {
 
@@ -33,6 +35,11 @@ class TransactionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // ✅ Toolbar başlığını ayarla (sadece TransactionFragment için)
+        val toolbar = requireActivity().findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.title = getString(R.string.app_name)
+        toolbar.setTitleTextColor(ContextCompat.getColor(requireContext(), R.color.primaryDark))
 
         binding.btnTransfer.setOnClickListener {
             val amountText = binding.etAmount.text.toString().trim()
