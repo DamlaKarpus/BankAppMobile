@@ -1,12 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Koyu Tema Renkleri -->
-    <color name="primary">#FFC107</color>       <!-- Sarı korunuyor -->
+    <!-- Global night paletin SENDEN GELEN şekilde kalsın -->
+    <color name="primary">#FFC107</color>
     <color name="primaryDark">#FFB300</color>
-    <color name="onPrimary">#FFFFFF</color>     <!-- Açık yazı -->
-    <color name="background">#121212</color>    <!-- Koyu gri arka plan -->
-    <color name="surface">#1E1E1E</color>       <!-- Yüzey rengi -->
-    <color name="onBackground">#FFFFFF</color>  <!-- Beyaz yazı -->
+    <color name="onPrimary">#FFFFFF</color>
+    <color name="background">#121212</color>
+    <color name="surface">#1E1E1E</color>
+    <color name="onBackground">#FFFFFF</color>
     <color name="onSurface">#FFFFFF</color>
-    <color name="error">#CF6679</color>         <!-- Koyu tema hata rengi -->
+    <color name="error">#CF6679</color>
+    <color name="allTransactionsTitle">#FFFFFF</color> <!-- beyaz -->
+    <color name="dashboardSeeAll">@color/primaryDark</color>
 </resources>

@@ -13,10 +13,11 @@
         android:text="@string/all_transactions_title"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
+        android:textColor="@color/allTransactionsTitle"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
 
     <!-- Yüklenme Göstergesi -->
     <ProgressBar

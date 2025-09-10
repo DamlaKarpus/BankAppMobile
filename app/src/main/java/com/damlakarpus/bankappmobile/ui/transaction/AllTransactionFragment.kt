@@ -13,6 +13,7 @@ import com.damlakarpus.bankappmobile.common.SessionManager
 import com.damlakarpus.bankappmobile.databinding.FragmentAllTransactionsBinding
 import com.damlakarpus.bankappmobile.ui.dashboard.TransactionAdapter
 import com.damlakarpus.bankappmobile.viewmodel.TransactionViewModel
+import com.google.android.material.appbar.MaterialToolbar
 
 class AllTransactionsFragment : Fragment() {
 
@@ -32,6 +33,10 @@ class AllTransactionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // ✅ Toolbar başlığını burada sıfırla (boş bırak)
+        val toolbar = requireActivity().findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.title = ""
 
         // RecyclerView setup -> kendi IBAN’ı TransactionAdapter’a geçiyoruz
         transactionAdapter = TransactionAdapter(currentIban = SessionManager.iban.orEmpty())
@@ -68,6 +73,9 @@ class AllTransactionsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // Çıkışta da başlık boş kalsın
+        val toolbar = requireActivity().findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.title = ""
         _binding = null
     }
 }

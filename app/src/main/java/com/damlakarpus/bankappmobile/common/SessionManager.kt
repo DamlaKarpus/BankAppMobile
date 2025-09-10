@@ -6,7 +6,7 @@ package com.damlakarpus.bankappmobile.common
  */
 object SessionManager {
 
-    // Sadece raw JWT token saklanacak
+    // JWT token
     var token: String? = null
 
     // Kullanıcı bilgileri
@@ -16,9 +16,9 @@ object SessionManager {
     var userName: String? = null
 
     /**
-     * Session bilgilerini kaydet veya güncelle
-     * Parametreler opsiyonel: null olmayanları günceller.
-     * Not: userName sadece boşsa güncellenir, aksi halde sabit kalır.
+     * Session bilgilerini kaydet veya güncelle.
+     * Null olmayan parametreler güncellenir.
+     * userName sadece boş değilse güncellenir.
      */
     fun saveSession(
         token: String? = null,
@@ -31,12 +31,12 @@ object SessionManager {
         userId?.let { this.userId = it }
         iban?.let { this.iban = it }
         balance?.let { this.balance = it }
-        userName?.let { this.userName = it }
+        if (!userName.isNullOrBlank()) {
+            this.userName = userName
+        }
     }
 
-    /**
-     * Session temizle
-     */
+     //Oturum verilerini sıfırlar.
     fun clearSession() {
         token = null
         userId = null

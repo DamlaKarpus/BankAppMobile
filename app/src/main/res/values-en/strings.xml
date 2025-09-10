@@ -13,6 +13,45 @@
     <string name="chat_unknown">I didn’t quite understand 🤔\n👉 You can try transfer, transactions, balance, iban, register, or login.</string>
     <string name="chat_no_iban">No saved IBAN found.</string>
 
+    <!-- Chat Keywords -->
+    <string-array name="keywords_transfer">
+        <item>transfer</item>
+        <item>send money</item>
+        <item>money transfer</item>
+        <item>send</item>
+    </string-array>
+
+    <string-array name="keywords_history">
+        <item>transaction</item>
+        <item>transactions</item>
+        <item>history</item>
+        <item>recent</item>
+        <item>activity</item>
+    </string-array>
+
+    <string-array name="keywords_balance">
+        <item>balance</item>
+        <item>account</item>
+        <item>money</item>
+    </string-array>
+
+    <string-array name="keywords_iban">
+        <item>iban</item>
+        <item>account number</item>
+    </string-array>
+
+    <string-array name="keywords_register">
+        <item>register</item>
+        <item>sign up</item>
+        <item>create account</item>
+    </string-array>
+
+    <string-array name="keywords_login">
+        <item>login</item>
+        <item>sign in</item>
+        <item>log in</item>
+    </string-array>
+
     <!-- AccountAdapter Strings -->
     <string name="account_number">Account #%1$d</string>
 
@@ -20,7 +59,7 @@
     <string name="please_login">Please log in</string>
     <string name="hello_user">Welcome, %1$s!</string>
     <string name="iban">IBAN: %1$s</string>
-    <string name="balance">Balance: %1$s ₺</string>
+    <string name="balance">Balance: %1$s</string>
     <string name="default_account_name">Checking Account</string>
 
     <string name="error_no_token">Token not found, please log in.</string>
