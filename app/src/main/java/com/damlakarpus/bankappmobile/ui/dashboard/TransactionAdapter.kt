@@ -30,15 +30,21 @@ class TransactionAdapter(
                 else -> tx.accountIban ?: tx.targetAccountIban
             }
 
-            // ÜST SATIR: Kullanıcı adı varsa onu göster, yoksa rol yaz
-            val role = when {
-                tx.type.equals("TRANSFER", true) && isOutgoing -> context.getString(R.string.role_receiver)
-                tx.type.equals("TRANSFER", true) && !isOutgoing -> context.getString(R.string.role_sender)
-                tx.type.equals("DEPOSIT", true) -> context.getString(R.string.role_deposit)
-                tx.type.equals("WITHDRAW", true) -> context.getString(R.string.role_withdraw)
-                else -> context.getString(R.string.role_transaction)
+            // ROL METNİ strings.xml’den alınır
+            val roleText = when {
+                tx.type.equals("TRANSFER", true) && isOutgoing -> context.getString(R.string.role_receiver)   // "Alıcı"
+                tx.type.equals("TRANSFER", true) && !isOutgoing -> context.getString(R.string.role_sender)    // "Gönderen"
+                tx.type.equals("DEPOSIT", true) -> context.getString(R.string.role_deposit)                   // "Para Yatırma"
+                tx.type.equals("WITHDRAW", true) -> context.getString(R.string.role_withdraw)                 // "Para Çekme"
+                else -> context.getString(R.string.role_transaction)                                         // "İşlem"
             }
-            binding.tvUserName.text = tx.targetUserName?.takeIf { it.isNotBlank() } ?: role
+
+            // ÜST SATIR: Eğer isim varsa "Alıcı: Bahar Yılmaz", yoksa sadece rol ("Alıcı")
+            binding.tvUserName.text = if (!tx.targetUserName.isNullOrBlank()) {
+                "$roleText: ${tx.targetUserName}"
+            } else {
+                roleText
+            }
 
             // ALT SATIR: IBAN
             binding.tvReceiverIban.text = counterpartyIban?.let {

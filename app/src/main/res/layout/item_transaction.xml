@@ -24,7 +24,7 @@
             android:textStyle="bold"
             android:textColor="@color/allTransactionsTitle"
             android:layout_marginBottom="2dp"
-            tools:text="@string/role_receiver" />
+            android:text="@string/role_receiver" />
 
         <!-- IBAN -->
         <TextView
