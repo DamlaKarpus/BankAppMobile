@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.damlakarpus.bankappmobile.R
+import com.damlakarpus.bankappmobile.utils.hide
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -33,11 +34,11 @@ open class BaseActivity : AppCompatActivity() {
             when (resource) {
                 is Resource.Loading -> progressBar?.visibility = View.VISIBLE
                 is Resource.Success -> {
-                    progressBar?.visibility = View.GONE
+                    progressBar?.hide()
                     resource.data?.let { onSuccess(it) }
                 }
                 is Resource.Error -> {
-                    progressBar?.visibility = View.GONE
+                    progressBar?.hide()
                     Toast.makeText(
                         this,
                         resource.message ?: getString(R.string.unknown_error),

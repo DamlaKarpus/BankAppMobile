@@ -80,6 +80,19 @@ dependencies {
     // Navigation Component
     implementation "androidx.navigation:navigation-fragment-ktx:2.7.7"
     implementation "androidx.navigation:navigation-ui-ktx:2.7.7"
+
+    // Unit Test
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.mockito:mockito-core:5.2.0"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+    testImplementation "io.mockk:mockk:1.13.11"
+
+    // Fragment Testing (sadece debug)
+    debugImplementation "androidx.fragment:fragment-testing:1.6.2"
+
+
+
 }
 
 kapt {
